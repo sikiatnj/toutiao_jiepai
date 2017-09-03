@@ -3,7 +3,7 @@ import os
 import re
 from hashlib import md5
 #from json.decoder import JSONDecodeError
-#from multiprocessing import Pool
+from multiprocessing import Pool
 from urllib import urlencode
 import pymongo
 import requests
@@ -100,11 +100,11 @@ def main(offset):
             result = parse_page_detail(uu)
             if result: save_to_mongo(result)
 
-
-#pool = Pool()
-#groups = ([x * 20 for x in range(GROUP_START, GROUP_END + 1)])
-#pool.map(main, groups)
-#pool.close()
-#pool.join()
 if __name__=="__main__":
-    main(0)
+    pool = Pool(2)
+    groups = ([x * 20 for x in range(GROUP_START, GROUP_END + 1)])
+    pool.map(main, groups)
+    pool.close()
+    pool.join()
+#if __name__=="__main__":
+#    main(0)
